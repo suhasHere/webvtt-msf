@@ -1,7 +1,7 @@
 ---
 title: "WebVTT Packaging for MOQT Streaming Format"
 category: info
-docname: draft-law-moq-webvtt-msf-latest
+docname: draft-wilaw-moq-webvtt-msf-latest
 submissiontype: IETF
 number:
 date:

@@ -1,11 +1,18 @@
-LIBDIR := lib
-include $(LIBDIR)/main.mk
+DRAFT = draft-wilaw-moq-webvtt-msf
+KRAMDOWN = /Users/snk/.gem/ruby/2.6.0/gems/kramdown-rfc2629-1.7.31/bin/kramdown-rfc
 
-$(LIBDIR)/main.mk:
-ifneq (,$(shell grep "path *= *$(LIBDIR)" .gitmodules 2>/dev/null))
-	git submodule sync
-	git submodule update $(CLONE_ARGS) --init
-else
-	git clone -q --depth 10 $(CLONE_ARGS) \
-	    -b main https://github.com/martinthomson/i-d-template $(LIBDIR)
-endif
+all: $(DRAFT).txt $(DRAFT).html
+
+$(DRAFT).xml: $(DRAFT).md
+	$(KRAMDOWN) $(DRAFT).md > $(DRAFT).xml
+
+$(DRAFT).txt: $(DRAFT).xml
+	xml2rfc --text $(DRAFT).xml
+
+$(DRAFT).html: $(DRAFT).xml
+	xml2rfc --html $(DRAFT).xml
+
+clean:
+	rm -f $(DRAFT).txt $(DRAFT).html $(DRAFT).xml
+
+.PHONY: all clean
